@@ -35,7 +35,7 @@ header {
   justify-content: center;
   height: 360px;
   margin: 0;
-  background: linear-gradient(0deg, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 100%);
+  background: linear-gradient(0deg, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
   color: white;
 }
 
@@ -86,7 +86,7 @@ nav {
   border-bottom: 1px solid #efefef;
 }
 
-nav > a {
+nav>a {
   color: #444;
   display: block;
   flex: 1;
@@ -96,7 +96,7 @@ nav > a {
   text-decoration: none;
 }
 
-nav > a:hover {
+nav>a:hover {
   text-decoration: underline;
 }
 
@@ -104,16 +104,16 @@ nav.collection {
   border: none;
 }
 
-nav.collection > ul {
+nav.collection>ul {
   padding: 0;
   list-style: none;
 }
 
-nav.collection > ul > li {
+nav.collection>ul>li {
   padding: 4px 0;
 }
 
-nav.collection > ul > li.selected {
+nav.collection>ul>li.selected {
   font-weight: 600;
 }
 
@@ -132,7 +132,7 @@ section.columns {
   justify-content: center;
 }
 
-section.columns > div {
+section.columns>div {
   flex: 1;
 }
 
@@ -151,11 +151,13 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
+
 th {
   font-weight: 600;
 }
 
-td, th {
+td,
+th {
   border: solid 1px #aaa;
   padding: 4px;
   text-align: left;
