@@ -1,65 +1,53 @@
-/**
- * @license
- * Copyright 2019 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
+import { html } from 'lit';
 
-import {LitElement, html, css} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import { fc } from './functionalComponent';
+import { useTextField, useNumberField } from './fieldHooks';
 
-/**
- * An example element.
- *
- * @fires count-changed - Indicates when the count changes
- * @slot - This element has a slot
- * @csspart button - The button
- */
-@customElement('my-element')
-export class MyElement extends LitElement {
-  static override styles = css`
-    :host {
-      display: block;
-      border: solid 1px gray;
-      padding: 16px;
-      max-width: 800px;
-    }
-  `;
 
-  /**
-   * The name to say "Hello" to.
-   */
-  @property()
-  name = 'World';
-
-  /**
-   * The number of times the button has been clicked.
-   */
-  @property({type: Number})
-  count = 0;
-
-  override render() {
-    return html`
-      <h1>${this.sayHello(this.name)}!</h1>
-      <button @click=${this._onClick} part="button">
-        Click Count: ${this.count}
-      </button>
-      <slot></slot>
-    `;
-  }
-
-  private _onClick() {
-    this.count++;
-    this.dispatchEvent(new CustomEvent('count-changed'));
-  }
-
-  /**
-   * Formats a greeting
-   * @param name The name to say "Hello" to
-   */
-  sayHello(name: string): string {
-    return `Hello, ${name}`;
-  }
+interface MyElementProps {
+  a: number
 }
+export const MyElement = fc<MyElementProps>('my-element', (props, hooks) => {
+  const [num, setNum] = hooks.useState(0)
+  const handleCountClick = hooks.useCallback(() => {
+    setNum(num + 1)
+  }, [num])
+  const longCall = hooks.useMemo(() => {
+    console.log('memo ran')
+    return num * 2
+  }, [num])
+
+  const [str, setStr] = hooks.useState("asdf")
+  const handleStrDupClick = hooks.useCallback(() => {
+    setStr(str + str)
+  }, [str])
+
+  const textInput = useTextField(hooks)
+  const numInput = useNumberField(hooks)
+
+  return html`
+    <div>Hello from the dark side</div>
+    <div>props: ${JSON.stringify(props)}</div>
+    <div>
+      num: ${num}
+      <button @click=${handleCountClick}>add</button>
+    </div>
+    <div>${longCall}</div>
+    <div>
+      str: ${str}
+      <button @click=${handleStrDupClick}>dup</button>
+    </div>
+    <div>text: <input type="text" value="${textInput.value}" @input="${textInput.handleChange}"></div>
+    <div>text: <input type="text" value="${textInput.value}" @input="${textInput.handleChange}"></div>
+    <div>numbers: <input type="text" .value="${numInput.value?.toString()}" @input="${numInput.handleChange}"></div>
+    <div>numbers: <input type="text" .value="${numInput.value?.toString()}" @input="${numInput.handleChange}"></div>
+  `
+},
+  {
+    properties: {
+      a: { attribute: 'a', type: Number }
+    }
+  })
 
 declare global {
   interface HTMLElementTagNameMap {
